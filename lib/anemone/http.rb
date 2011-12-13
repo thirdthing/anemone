@@ -180,7 +180,11 @@ module Anemone
     # Allowed to connect to the requested url?
     #
     def allowed?(to_url, from_url)
-      to_url.host.nil? || (to_url.host == from_url.host)
+      to_url.host.nil? || (to_url.host == from_url.host) || (@opts[:crawl_subdomains] && (domain(to_url) == domain(from_url)))
+    end
+    
+    def domain(url)
+      url.host.split('.')[-2]
     end
 
   end

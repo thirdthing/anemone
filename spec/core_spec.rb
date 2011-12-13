@@ -54,6 +54,17 @@ module Anemone
         core.pages.keys.should include('http://subdomain.example.com/')
       end
 
+      it "should follow redirects to subdomains" do
+        pages = []
+        pages << FakePage.new('0', :links => ['1'], :redirect => 'http://subdomain.example.com/')
+        pages << FakePage.new('1')
+
+        core = Anemone.crawl(pages[0].url, @opts.merge({:crawl_subdomains => true}))
+
+        core.should have(2).pages
+        core.pages.keys.should include('http://subdomain.example.com/')
+      end
+
       it "should follow http redirects" do
         pages = []
         pages << FakePage.new('0', :links => ['1'])
