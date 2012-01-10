@@ -58,6 +58,8 @@ module Anemone
       return @links unless @links.nil?
       @links = []
       return @links if !doc
+      
+      return @links if not_found? # Don't look for links on 404 pages
 
       doc.search("//a[@href]").each do |a|
         u = a['href']
