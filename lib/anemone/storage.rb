@@ -13,9 +13,9 @@ module Anemone
       self::PStore.new(*args)
     end
 
-    def self.TokyoCabinet(file = 'anemone.tch')
+    def self.TokyoCabinet(file = 'anemone.tch', xmsiz = 67108864, bnum = 131071, apow = -1, fpow = -1, opts = nil)
       require 'anemone/storage/tokyo_cabinet'
-      self::TokyoCabinet.new(file)
+      self::TokyoCabinet.new(file, xmsiz, bnum, apow, fpow, opts)
     end
 
     def self.MongoDB(mongo_db = nil, collection_name = 'pages')
