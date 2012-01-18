@@ -60,6 +60,8 @@ module Anemone
       return @links if !doc
       
       return @links if not_found? # Don't look for links on 404 pages
+      
+      return @links if looping_params? # Don't look for links if the url contains param repitition
 
       doc.search("//a[@href]").each do |a|
         u = a['href']
@@ -131,6 +133,18 @@ module Anemone
     #
     def not_found?
       404 == @code
+    end
+    
+    #
+    # Returns +true+ if the url query contains repeated params (indicating a loop),
+    # returns +false+ otherwise.
+    #
+    def looping_params?
+      return false if @url.query.nil?
+      CGI.parse(@url.query).each do |k,v|
+        return true if v.length > 2
+      end
+      return false
     end
 
     #
