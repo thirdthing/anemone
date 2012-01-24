@@ -63,7 +63,7 @@ module Anemone
       
       return @links if looping_params? # Don't look for links if the url contains param repitition
 
-      doc.search("//a[@href]").each do |a|
+      doc.search("//a[@href]|//area[@href]").each do |a|
         u = a['href']
         next if u.nil? or u.empty?
         abs = to_absolute(URI(u)) rescue next
